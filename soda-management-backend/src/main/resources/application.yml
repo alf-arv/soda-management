@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: soda-management-backend
+
+soda:
+  admin-password: ${SODA_ADMIN_PASSWORD:admin123}
+  data-file: ${SODA_DATA_FILE:/data/soda-state.json}
+  initial-stock: ${SODA_INITIAL_STOCK:0}
+  origin-username: ${ORIGIN_ACCOUNT_USERNAME:admin}
+  origin-password: ${ORIGIN_ACCOUNT_PASSWORD:admin123}
+  auto-admin-usernames: ${SODA_AUTO_ADMIN_USERNAMES:}
+  cors:
+    allowed-origins: ${SODA_CORS_ALLOWED_ORIGINS:*}
+
+server:
+  port: 8080

@@ -1,0 +1,18 @@
+services:
+  soda-api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SODA_ADMIN_PASSWORD: ${SODA_ADMIN_PASSWORD:-admin123}
+      SODA_DATA_FILE: /data/soda-state.json
+      SODA_INITIAL_STOCK: ${SODA_INITIAL_STOCK:-0}
+      SODA_CORS_ALLOWED_ORIGINS: ${SODA_CORS_ALLOWED_ORIGINS:-*}
+      ORIGIN_ACCOUNT_USERNAME: ${ORIGIN_ACCOUNT_USERNAME:-admin}
+      ORIGIN_ACCOUNT_PASSWORD: ${ORIGIN_ACCOUNT_PASSWORD:-admin123}
+      SODA_AUTO_ADMIN_USERNAMES: ${SODA_AUTO_ADMIN_USERNAMES:-}
+    volumes:
+      - soda-data:/data
+
+volumes:
+  soda-data:
