@@ -1,6 +1,6 @@
-# Soda HQ — Frontend
+# Soda Management Frontend
 
-A sleek React SPA for tracking office soda consumption. It talks to the Spring Boot backend over REST and is tuned for a dark, premium feel with Material UI.
+React SPA for tracking office soda consumption. 100% vibe coded.
 
 ## Prerequisites
 
