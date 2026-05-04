@@ -1,0 +1,56 @@
+name: Publish latest main as image to Dockerhub
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to tag image with
+        type: string
+        required: true
+
+run-name: Publish latest main as version ${{ github.event.inputs.version }} to Dockerhub
+
+jobs:
+  push_to_registry:
+    name: Push current main to Docker Hub with specified tag
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: alfarv/soda-management
+          tags: ${{ github.event.inputs.version }}
+          labels: |
+            org.opencontainers.image.version=${{ github.event.inputs.version }}
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./soda-management-backend
+          file: ./soda-management-backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: index.docker.io/alfarv/soda-management
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true

@@ -1,0 +1,8 @@
+soda-management-frontend/node_modules
+soda-management-frontend/dist
+soda-management-backend/target
+.idea
+.DS_Store
+*.log
+.env.local
+.env.*.local
