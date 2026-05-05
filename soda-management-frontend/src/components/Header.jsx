@@ -6,12 +6,13 @@ import LocalDrinkRoundedIcon from "@mui/icons-material/LocalDrinkRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import VpnKeyRounded from "@mui/icons-material/VpnKeyRounded";
+import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import { useThemeMode } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import { useNotify } from "../context/NotifyContext";
 import ChangePasswordDialog from "./ChangePasswordDialog";
 
-export default function Header({ user, onLogout, onOpenAdmin }) {
+export default function Header({ user, onLogout, onOpenAdmin, onOpenInfo }) {
   const theme = useTheme();
   const { mode, toggleMode } = useThemeMode();
   const { token, updateToken } = useAuth();
@@ -99,6 +100,20 @@ export default function Header({ user, onLogout, onOpenAdmin }) {
           >
             <VpnKeyRounded fontSize={isNarrow ? "small" : "medium"} />
           </IconButton>
+
+          {onOpenInfo ? (
+            <IconButton
+              aria-label="How the soda fund works"
+              onClick={onOpenInfo}
+              size={isNarrow ? "small" : "medium"}
+              sx={{
+                color: "text.secondary",
+                "&:hover": { color: "primary.main", bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
+              }}
+            >
+              <HelpOutlineRoundedIcon fontSize={isNarrow ? "small" : "medium"} />
+            </IconButton>
+          ) : null}
 
           <IconButton
             aria-label="Toggle theme"

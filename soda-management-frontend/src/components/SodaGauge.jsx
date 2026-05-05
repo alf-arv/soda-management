@@ -77,6 +77,8 @@ function Ring({ size, stock, maxStock, color, label, theme }) {
   );
 }
 
+const RING_FULL_AT = 20;
+
 export default function SodaGauge({
   remainingStock,
   participants,
@@ -84,11 +86,8 @@ export default function SodaGauge({
   stockBySodaType = {},
 }) {
   const theme = useTheme();
-  const capacity = inferCapacity(remainingStock, participants || []);
 
-  const maxStock = sodaTypes.length
-    ? Math.max(1, ...sodaTypes.map((t) => Number(stockBySodaType[t.name]) || 0), capacity)
-    : capacity;
+  const maxStock = RING_FULL_AT;
 
   const ringSize = sodaTypes.length <= 3 ? 150 : sodaTypes.length <= 5 ? 130 : 110;
 

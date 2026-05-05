@@ -12,6 +12,8 @@ import ActivityFeed from "./ActivityFeed";
 import TakeSodaDialog from "./TakeSodaDialog";
 import RefillDialog from "./RefillDialog";
 import AdminPanel from "./AdminPanel";
+import LowStockBanner from "./LowStockBanner";
+import CommunityInfoDialog from "./CommunityInfoDialog";
 
 const pulse = keyframes`
   0% { box-shadow: 0 0 0 0 rgba(212,168,83,0.45); }
@@ -30,6 +32,7 @@ export default function Dashboard() {
   const [takeOpen, setTakeOpen] = useState(false);
   const [refillOpen, setRefillOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -79,7 +82,12 @@ export default function Dashboard() {
   return (
     <Fade in timeout={500}>
       <Box sx={{ pb: { xs: 14, sm: 10 } }}>
-        <Header user={user} onLogout={logout} onOpenAdmin={() => setAdminOpen(true)} />
+        <Header
+          user={user}
+          onLogout={logout}
+          onOpenAdmin={() => setAdminOpen(true)}
+          onOpenInfo={() => setInfoOpen(true)}
+        />
 
         <Container maxWidth="lg" sx={{ mt: 3 }}>
           <Box
@@ -91,6 +99,12 @@ export default function Dashboard() {
             }}
           >
             <Box sx={{ flex: "1 1 0%", minWidth: 0, width: { xs: "100%", lg: "auto" } }}>
+              <LowStockBanner
+                remainingStock={remaining}
+                participants={participants}
+                currentUsername={user?.username}
+                onOpenInfo={() => setInfoOpen(true)}
+              />
               <Paper
                 elevation={0}
                 sx={{
@@ -277,6 +291,12 @@ export default function Dashboard() {
           showError={showError}
           stockBySodaType={stockBySodaType}
           onDataChanged={load}
+        />
+        <CommunityInfoDialog
+          open={infoOpen}
+          onClose={() => setInfoOpen(false)}
+          participants={participants}
+          currentUsername={user?.username}
         />
       </Box>
     </Fade>

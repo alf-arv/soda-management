@@ -227,6 +227,37 @@ export function hasFirstNameCollision(username, allUsernames) {
   });
 }
 
+export function isStockLow(remainingStock, participantCount) {
+  const stock = Number(remainingStock);
+  const count = Number(participantCount);
+  if (!Number.isFinite(stock) || !Number.isFinite(count) || count <= 0) return false;
+  return stock < count;
+}
+
+export function getNextRefiller(participants) {
+  if (!Array.isArray(participants) || participants.length === 0) return null;
+  return [...participants].sort((a, b) => {
+    const aNet = a.netBalance ?? 0;
+    const bNet = b.netBalance ?? 0;
+    if (aNet !== bNet) return aNet - bNet;
+    return (b.sodasTaken ?? 0) - (a.sodasTaken ?? 0);
+  })[0];
+}
+
+export function contributionRatioScore(participant) {
+  const taken = Number(participant?.sodasTaken) || 0;
+  const contrib = Number(participant?.sodasContributed) || 0;
+  const total = taken + contrib;
+  if (total === 0) {
+    return { score: 0, ratio: null, label: "—" };
+  }
+  const score = (contrib - taken) / total;
+  if (taken === 0) {
+    return { score, ratio: Infinity, label: "∞×" };
+  }
+  return { score, ratio: contrib / taken, label: `${(contrib / taken).toFixed(2)}×` };
+}
+
 export function normalizeStatus(raw) {
   if (!raw || typeof raw !== "object") {
     return {
