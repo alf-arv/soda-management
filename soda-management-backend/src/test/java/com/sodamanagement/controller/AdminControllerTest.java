@@ -142,7 +142,10 @@ class AdminControllerTest {
 
     @Test
     void updateUserStats_returnsOk() throws Exception {
-        String body = objectMapper.writeValueAsString(Map.of("sodasTaken", 5, "sodasRefilled", 3));
+        String body = objectMapper.writeValueAsString(Map.of(
+                "sodasTaken", 5,
+                "sodasRefilled", 3,
+                "totalMoneySpentOnRefills", 42.5));
 
         mockMvc.perform(patch("/api/admin/users/bob/stats")
                         .header("Authorization", "Bearer test-token")
@@ -151,7 +154,7 @@ class AdminControllerTest {
                         .content(body))
                 .andExpect(status().isOk());
 
-        verify(userService).updateUserStats("bob", 5, 3);
+        verify(userService).updateUserStats("bob", 5, 3, 42.5);
     }
 
     // --- soda types ---

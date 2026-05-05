@@ -6,6 +6,8 @@ public record UpdateUserStatsRequest(
         @PositiveOrZero
         int sodasTaken,
         @PositiveOrZero
-        int sodasRefilled
+        int sodasRefilled,
+        @PositiveOrZero
+        double totalMoneySpentOnRefills
 ) {
 }

@@ -70,6 +70,7 @@ export default function AdminPanel({
   const [editUsername, setEditUsername] = useState(null);
   const [editTaken, setEditTaken] = useState("");
   const [editRefilled, setEditRefilled] = useState("");
+  const [editRefillSpend, setEditRefillSpend] = useState("");
   const [savingStats, setSavingStats] = useState(false);
 
   const [stockEditOpen, setStockEditOpen] = useState(false);
@@ -98,6 +99,7 @@ export default function AdminPanel({
       setEditUsername(null);
       setEditTaken("");
       setEditRefilled("");
+      setEditRefillSpend("");
       setSavingStats(false);
       setStockEditOpen(false);
       setStockDraft({});
@@ -191,19 +193,25 @@ export default function AdminPanel({
     setEditUsername(entry.username);
     setEditTaken(String(entry.sodasTaken ?? 0));
     setEditRefilled(String(entry.sodasRefilled ?? 0));
+    setEditRefillSpend(String(entry.totalMoneySpentOnRefills ?? 0));
   };
 
   const handleSaveStats = async () => {
     if (!editUsername) return;
     const taken = Number(editTaken);
     const refilled = Number(editRefilled);
-    if (!Number.isFinite(taken) || taken < 0 || !Number.isFinite(refilled) || refilled < 0) {
+    const refillSpend = Number(editRefillSpend);
+    if (
+      !Number.isFinite(taken) || taken < 0 ||
+      !Number.isFinite(refilled) || refilled < 0 ||
+      !Number.isFinite(refillSpend) || refillSpend < 0
+    ) {
       showError("Enter valid non-negative numbers.");
       return;
     }
     setSavingStats(true);
     try {
-      await updateUserStats(editUsername, taken, refilled, token, adminPassword);
+      await updateUserStats(editUsername, taken, refilled, refillSpend, token, adminPassword);
       showSuccess("Stats updated.");
       setEditUsername(null);
       await refreshUsers();
@@ -388,7 +396,7 @@ export default function AdminPanel({
                         >
                           <ListItemText
                             primary={displayName(u.username)}
-                            secondary={`Taken: ${u.sodasTaken ?? 0} · Contributed: ${u.sodasRefilled ?? 0}`}
+                            secondary={`Taken: ${u.sodasTaken ?? 0} · Contributed: ${u.sodasRefilled ?? 0} · Spent: ${Number(u.totalMoneySpentOnRefills ?? 0).toFixed(2)} SEK`}
                             secondaryTypographyProps={{ variant: "caption" }}
                           />
                         </ListItem>
@@ -594,6 +602,14 @@ export default function AdminPanel({
               inputProps={{ min: 0, step: 1 }}
               value={editRefilled}
               onChange={(e) => setEditRefilled(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              label="Refill spend (SEK)"
+              type="number"
+              inputProps={{ min: 0, step: "0.01", inputMode: "decimal" }}
+              value={editRefillSpend}
+              onChange={(e) => setEditRefillSpend(e.target.value)}
               fullWidth
             />
           </Box>

@@ -148,10 +148,17 @@ export async function verifyAdmin(password, token) {
   });
 }
 
-export async function updateUserStats(username, sodasTaken, sodasRefilled, token, adminPassword) {
+export async function updateUserStats(
+  username,
+  sodasTaken,
+  sodasRefilled,
+  totalMoneySpentOnRefills,
+  token,
+  adminPassword,
+) {
   return request(`/api/admin/users/${encodeURIComponent(username)}/stats`, {
     method: "PATCH",
-    body: { sodasTaken, sodasRefilled },
+    body: { sodasTaken, sodasRefilled, totalMoneySpentOnRefills },
     token,
     extraHeaders: { "X-Admin-Password": adminPassword },
   });

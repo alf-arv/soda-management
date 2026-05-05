@@ -9,7 +9,7 @@ import {
   TextField,
   CircularProgress,
 } from "@mui/material";
-import { changePassword, hashPassword } from "../api/api";
+import { changePassword, displayName, hashPassword } from "../api/api";
 
 export default function ChangePasswordDialog({
   open,
@@ -18,6 +18,7 @@ export default function ChangePasswordDialog({
   updateToken,
   showSuccess,
   showError,
+  username,
 }) {
   const [current, setCurrent] = useState("");
   const [nextPwd, setNextPwd] = useState("");
@@ -71,7 +72,9 @@ export default function ChangePasswordDialog({
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Change password</DialogTitle>
+      <DialogTitle>
+        {username ? `Change password for ${displayName(username)}` : "Change password"}
+      </DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 1 }}>
           <TextField

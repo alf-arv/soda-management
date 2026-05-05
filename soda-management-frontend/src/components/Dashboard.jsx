@@ -93,7 +93,7 @@ export default function Dashboard() {
               <Paper
                 elevation={0}
                 sx={{
-                  p: { xs: 2, sm: 4 },
+                  p: { xs: 2.5, sm: 4 },
                   mb: 3,
                   borderRadius: 4,
                   position: "relative",
@@ -111,6 +111,16 @@ export default function Dashboard() {
                 }}
               >
                 <Box sx={{ position: "relative", zIndex: 1 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      mb: { xs: 1.5, sm: 2 },
+                      fontWeight: 700,
+                      pl: { xs: 0.5, sm: 0 },
+                    }}
+                  >
+                    Current inventory
+                  </Typography>
                   {loading && !status ? (
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", py: 2 }}>
                       <Skeleton variant="circular" width={220} height={220} />

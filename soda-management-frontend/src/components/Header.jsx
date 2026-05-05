@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppBar, Box, IconButton, Toolbar, Typography, alpha, useTheme } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography, alpha, useMediaQuery, useTheme } from "@mui/material";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
 import LocalDrinkRoundedIcon from "@mui/icons-material/LocalDrinkRounded";
@@ -17,6 +17,7 @@ export default function Header({ user, onLogout, onOpenAdmin }) {
   const { token, updateToken } = useAuth();
   const { showSuccess, showError } = useNotify();
   const dark = theme.palette.mode === "dark";
+  const isNarrow = useMediaQuery(theme.breakpoints.down("sm"));
   const [pwdOpen, setPwdOpen] = useState(false);
 
   return (
@@ -41,20 +42,21 @@ export default function Header({ user, onLogout, onOpenAdmin }) {
             : `0 4px 24px ${alpha("#000000", 0.08)}`,
         }}
       >
-        <Toolbar sx={{ gap: 2, py: 1 }}>
+        <Toolbar sx={{ gap: { xs: 0.5, sm: 2 }, py: 1, px: { xs: 1.5, sm: 3 } }}>
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 1.25,
+              gap: { xs: 1, sm: 1.25 },
               flexGrow: 1,
               minWidth: 0,
             }}
           >
             <Box
               sx={{
-                width: 40,
-                height: 40,
+                width: { xs: 32, sm: 40 },
+                height: { xs: 32, sm: 40 },
+                flexShrink: 0,
                 borderRadius: 2,
                 display: "grid",
                 placeItems: "center",
@@ -63,62 +65,79 @@ export default function Header({ user, onLogout, onOpenAdmin }) {
                 border: (t) => `1px solid ${alpha(t.palette.primary.main, 0.35)}`,
               }}
             >
-              <LocalDrinkRoundedIcon sx={{ color: "primary.main" }} />
+              <LocalDrinkRoundedIcon sx={{ color: "primary.main", fontSize: { xs: 20, sm: 24 } }} />
             </Box>
             <Box sx={{ minWidth: 0 }}>
-              <Typography variant="h6" noWrap sx={{ lineHeight: 1.1, color: "text.primary" }}>
-                L18 Soda Service
+              <Typography
+                variant={isNarrow ? "subtitle1" : "h6"}
+                noWrap
+                sx={{
+                  lineHeight: 1.1,
+                  color: "text.primary",
+                  fontWeight: 700,
+                  fontSize: { xs: "0.95rem", sm: "1.25rem" },
+                }}
+              >
+                {isNarrow ? "L18 Soda" : "L18 Soda Service"}
               </Typography>
-              <Typography variant="caption" noWrap sx={{ color: "text.secondary" }}>
-                Office hydration, reimagined
-              </Typography>
+              {!isNarrow && (
+                <Typography variant="caption" noWrap sx={{ color: "text.secondary" }}>
+                  Office hydration, reimagined
+                </Typography>
+              )}
             </Box>
           </Box>
 
           <IconButton
             aria-label="Change password"
             onClick={() => setPwdOpen(true)}
+            size={isNarrow ? "small" : "medium"}
             sx={{
               color: "text.secondary",
               "&:hover": { color: "primary.main", bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
             }}
           >
-            <VpnKeyRounded />
+            <VpnKeyRounded fontSize={isNarrow ? "small" : "medium"} />
           </IconButton>
 
           <IconButton
             aria-label="Toggle theme"
             onClick={toggleMode}
+            size={isNarrow ? "small" : "medium"}
             sx={{
               color: "text.secondary",
               "&:hover": { color: "primary.main", bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
             }}
           >
-            {mode === "dark" ? <LightModeRoundedIcon /> : <DarkModeRoundedIcon />}
+            {mode === "dark"
+              ? <LightModeRoundedIcon fontSize={isNarrow ? "small" : "medium"} />
+              : <DarkModeRoundedIcon fontSize={isNarrow ? "small" : "medium"} />}
           </IconButton>
 
           {user?.role === "ADMIN" ? (
             <IconButton
               aria-label="Admin"
               onClick={onOpenAdmin}
+              size={isNarrow ? "small" : "medium"}
               sx={{
                 color: "text.secondary",
                 "&:hover": { color: "primary.main", bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
               }}
             >
-              <SettingsSuggestRoundedIcon />
+              <SettingsSuggestRoundedIcon fontSize={isNarrow ? "small" : "medium"} />
             </IconButton>
           ) : null}
 
           <IconButton
             aria-label="Logout"
             onClick={onLogout}
+            size={isNarrow ? "small" : "medium"}
             sx={{
               color: "text.secondary",
               "&:hover": { color: "error.main", bgcolor: (t) => alpha(t.palette.error.main, 0.08) },
             }}
           >
-            <LogoutRoundedIcon />
+            <LogoutRoundedIcon fontSize={isNarrow ? "small" : "medium"} />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -130,6 +149,7 @@ export default function Header({ user, onLogout, onOpenAdmin }) {
         updateToken={updateToken}
         showSuccess={showSuccess}
         showError={showError}
+        username={user?.username}
       />
     </>
   );

@@ -60,7 +60,12 @@ public class AdminController {
     @PatchMapping("/users/{username}/stats")
     public ResponseEntity<Void> updateUserStats(@PathVariable String username,
                                                 @Valid @RequestBody UpdateUserStatsRequest request) {
-        userService.updateUserStats(username, request.sodasTaken(), request.sodasRefilled());
+        userService.updateUserStats(
+                username,
+                request.sodasTaken(),
+                request.sodasRefilled(),
+                request.totalMoneySpentOnRefills()
+        );
         return ResponseEntity.ok().build();
     }
 

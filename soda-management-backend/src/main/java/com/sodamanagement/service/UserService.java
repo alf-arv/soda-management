@@ -114,7 +114,7 @@ public class UserService {
         }
     }
 
-    public void updateUserStats(String username, int sodasTaken, int sodasRefilled) {
+    public void updateUserStats(String username, int sodasTaken, int sodasRefilled, double totalMoneySpentOnRefills) {
         synchronized (stateManager.getLock()) {
             User u = stateManager.users().get(username.trim().toLowerCase());
             if (u == null) {
@@ -122,6 +122,7 @@ public class UserService {
             }
             u.setSodasTaken(sodasTaken);
             u.setSodasRefilled(sodasRefilled);
+            u.setTotalMoneySpentOnRefills(totalMoneySpentOnRefills);
             stateManager.persistLocked();
         }
     }

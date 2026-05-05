@@ -26,8 +26,15 @@ function formatTime(ts) {
 export default function ActivityFeed({ activities, loading, sodaTypes }) {
   const theme = useTheme();
   return (
-    <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }}>
-      <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
+    <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 3 }, borderRadius: 3 }}>
+      <Typography
+        variant="h6"
+        sx={{
+          mb: { xs: 1.5, sm: 2 },
+          fontWeight: 700,
+          pl: { xs: 0.5, sm: 0 },
+        }}
+      >
         Recent activity
       </Typography>
       {loading ? (

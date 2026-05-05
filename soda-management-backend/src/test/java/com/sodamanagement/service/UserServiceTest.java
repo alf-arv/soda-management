@@ -239,17 +239,18 @@ class UserServiceTest {
     @Test
     void updateUserStats_success() {
         users.put("alice", new User("alice", "hash", Role.USER));
-        userService.updateUserStats("alice", 10, 5);
+        userService.updateUserStats("alice", 10, 5, 123.45);
 
         assertEquals(10, users.get("alice").getSodasTaken());
         assertEquals(5, users.get("alice").getSodasRefilled());
+        assertEquals(123.45, users.get("alice").getTotalMoneySpentOnRefills());
         verify(stateManager).persistLocked();
     }
 
     @Test
     void updateUserStats_notFound_throws() {
         assertThrows(ResponseStatusException.class, () ->
-                userService.updateUserStats("nobody", 1, 1));
+                userService.updateUserStats("nobody", 1, 1, 0.0));
     }
 
     // --- changePassword ---
