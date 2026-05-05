@@ -25,7 +25,7 @@ import {
 import UserDisplayName from "./UserDisplayName";
 
 const EXPLAINER = [
-    "This should be kept a nice and obedient soda community. No alcoholic drinks are allowed and we strictly follow L18's and WBD's rules.",
+    "This should be kept a nice and obedient soda community. No alcoholic drinks are allowed and we strictly follow office and company rules.",
     "Soda cooling may not interfere with other usage of the common fridges and cold stock should be kept low.",
     "Anyone with an account can participate — but have to record their actions so trust and fairness remains.",
     "We collaborate in moving cans from the warm storage (soda cabinet) to the fridge, and try to keep a variety of cold sodas available at all times.",
