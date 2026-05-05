@@ -1,6 +1,7 @@
 import { Avatar, Box, Paper, Typography, alpha } from "@mui/material";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import { displayName } from "../api/api";
+import { capitalize, splitUsername } from "../api/api";
+import UserDisplayName from "./UserDisplayName";
 
 function formatMoney(amount) {
   const n = Number(amount);
@@ -8,11 +9,13 @@ function formatMoney(amount) {
   return `${n.toFixed(2)} SEK`;
 }
 
-export default function UserCard({ participant }) {
+export default function UserCard({ participant, allUsernames }) {
   const { username, sodasTaken, sodasContributed, moneySpent, netBalance } =
     participant;
-  const shown = displayName(username);
-  const initials = shown.slice(0, 2).toUpperCase();
+  const { first, last } = splitUsername(username);
+  const initials =
+    `${capitalize(first).charAt(0)}${capitalize(last).charAt(0)}`.toUpperCase() ||
+    capitalize(username).slice(0, 2).toUpperCase();
   const owes = netBalance < 0;
   const ahead = netBalance > 0;
 
@@ -46,8 +49,8 @@ export default function UserCard({ participant }) {
           {initials || <PersonRoundedIcon />}
         </Avatar>
         <Box sx={{ minWidth: 0 }}>
-          <Typography variant="subtitle1" fontWeight={700} noWrap>
-            {shown}
+          <Typography variant="subtitle1" fontWeight={700} noWrap component="div">
+            <UserDisplayName username={username} allUsernames={allUsernames} />
           </Typography>
           <Typography variant="caption" color="text.secondary">
             Net balance vs. group

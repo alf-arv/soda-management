@@ -38,6 +38,7 @@ import {
   verifyAdmin,
   displayName,
 } from "../api/api";
+import UserDisplayName from "./UserDisplayName";
 
 export default function AdminPanel({
   open,
@@ -360,7 +361,9 @@ export default function AdminPanel({
                       No users returned.
                     </Typography>
                   ) : (
-                    users.map((u) => (
+                    (() => {
+                      const allUsernames = users.map((u) => u.username).filter(Boolean);
+                      return users.map((u) => (
                         <ListItem
                           key={u.username}
                           secondaryAction={
@@ -395,12 +398,19 @@ export default function AdminPanel({
                           }}
                         >
                           <ListItemText
-                            primary={displayName(u.username)}
+                            primary={
+                              <UserDisplayName
+                                username={u.username}
+                                allUsernames={allUsernames}
+                              />
+                            }
                             secondary={`Taken: ${u.sodasTaken ?? 0} · Contributed: ${u.sodasRefilled ?? 0} · Spent: ${Number(u.totalMoneySpentOnRefills ?? 0).toFixed(2)} SEK`}
+                            primaryTypographyProps={{ component: "div" }}
                             secondaryTypographyProps={{ variant: "caption" }}
                           />
                         </ListItem>
-                    ))
+                      ));
+                    })()
                   )}
                 </List>
               )}

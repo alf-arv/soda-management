@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import SodaCanIcon from "./SodaCanIcon";
+import UserDisplayName from "./UserDisplayName";
 
 function formatTime(ts) {
   if (!ts) return "";
@@ -23,7 +24,37 @@ function formatTime(ts) {
   }).format(d);
 }
 
-export default function ActivityFeed({ activities, loading, sodaTypes }) {
+function ActivityMessage({ activity, allUsernames }) {
+  const { type, sodaType, username, quantity, cost } = activity;
+  const qty = quantity ?? 0;
+  const sodaLabel = `${sodaType || "soda"}${qty !== 1 ? "s" : ""}`;
+  const who = (
+    <UserDisplayName username={username} allUsernames={allUsernames} />
+  );
+
+  if (type === "TAKE") {
+    return (
+      <>
+        {who} grabbed {qty} {sodaLabel}
+      </>
+    );
+  }
+  if (type === "REFILL") {
+    return (
+      <>
+        {who} refilled {qty} {sodaLabel}
+        {cost > 0 ? ` (${Number(cost).toFixed(2)} SEK)` : ""}
+      </>
+    );
+  }
+  return (
+    <>
+      {who} — {type || "event"}
+    </>
+  );
+}
+
+export default function ActivityFeed({ activities, loading, sodaTypes, allUsernames }) {
   const theme = useTheme();
   return (
     <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 3 }, borderRadius: 3 }}>
@@ -73,9 +104,9 @@ export default function ActivityFeed({ activities, loading, sodaTypes }) {
                   )}
                 </ListItemIcon>
                 <ListItemText
-                  primary={a.message || "Event"}
+                  primary={<ActivityMessage activity={a} allUsernames={allUsernames} />}
                   secondary={formatTime(a.timestamp)}
-                  primaryTypographyProps={{ variant: "body2", fontWeight: 500 }}
+                  primaryTypographyProps={{ variant: "body2", fontWeight: 500, component: "div" }}
                   secondaryTypographyProps={{ variant: "caption" }}
                 />
               </ListItem>

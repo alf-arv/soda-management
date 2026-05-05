@@ -50,6 +50,9 @@ const darkTheme = createTheme({
           backgroundAttachment: "fixed",
           minHeight: "100vh",
         },
+        "html.is-standalone body": {
+          paddingTop: "env(safe-area-inset-top)",
+        },
       },
     },
     MuiPaper: {
@@ -85,8 +88,8 @@ const darkTheme = createTheme({
   },
 });
 
-const skyStart = "#e8f0fe";
-const skyMid = "#f0f4f8";
+const skyStart = "#bcd5f0";
+const skyMid = "#dde8f5";
 const skyEnd = "#f8fafc";
 const accentBlue = "#5b9ef5";
 
@@ -112,12 +115,15 @@ const lightTheme = createTheme({
         body: {
           backgroundColor: skyEnd,
           backgroundImage: `
-            radial-gradient(ellipse 90% 50% at 50% -10%, ${alpha(accentBlue, 0.18)}, transparent),
-            radial-gradient(ellipse 60% 50% at 100% 0%, ${alpha("#a78bfa", 0.1)}, transparent),
-            linear-gradient(180deg, ${skyStart} 0%, ${skyMid} 40%, ${skyEnd} 100%)
+            radial-gradient(ellipse 90% 60% at 50% -5%, ${alpha(accentBlue, 0.32)}, transparent),
+            radial-gradient(ellipse 60% 50% at 100% 0%, ${alpha("#a78bfa", 0.12)}, transparent),
+            linear-gradient(180deg, ${skyStart} 0%, ${skyMid} 35%, ${skyEnd} 80%)
           `,
           backgroundAttachment: "fixed",
           minHeight: "100vh",
+        },
+        "html.is-standalone body": {
+          paddingTop: "env(safe-area-inset-top)",
         },
       },
     },

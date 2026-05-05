@@ -194,9 +194,37 @@ export async function setSodaStock(stockBySodaType, token, adminPassword) {
   });
 }
 
+export function capitalize(value) {
+  if (!value) return "";
+  const str = String(value);
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function splitUsername(username) {
+  if (!username) return { first: "", last: "" };
+  const str = String(username);
+  const dot = str.indexOf(".");
+  if (dot < 0) return { first: str, last: "" };
+  return { first: str.slice(0, dot), last: str.slice(dot + 1) };
+}
+
 export function displayName(username) {
   if (!username) return "";
-  return username.charAt(0).toUpperCase() + username.slice(1);
+  const { first } = splitUsername(username);
+  return capitalize(first || username);
+}
+
+export function hasFirstNameCollision(username, allUsernames) {
+  if (!username || !Array.isArray(allUsernames)) return false;
+  const { first, last } = splitUsername(username);
+  if (!last) return false;
+  const target = first.toLowerCase();
+  const self = String(username).toLowerCase();
+  return allUsernames.some((u) => {
+    if (!u) return false;
+    if (String(u).toLowerCase() === self) return false;
+    return splitUsername(u).first.toLowerCase() === target;
+  });
 }
 
 export function normalizeStatus(raw) {
@@ -227,25 +255,14 @@ export function normalizeStatus(raw) {
     .reverse()
     .map((a, idx) => {
       const type = (a.type ?? "").toUpperCase();
-      const who = displayName(a.username ?? "");
-      const qty = a.quantity ?? 0;
-      const cost = a.cost ?? 0;
-      const sodaType = a.sodaType ?? "";
-      let message;
-      if (type === "TAKE") {
-        message = `${who} grabbed ${qty} ${sodaType || "soda"}${qty !== 1 ? "s" : ""}`;
-      } else if (type === "REFILL") {
-        message = `${who} refilled ${qty} ${sodaType || "soda"}${qty !== 1 ? "s" : ""}` +
-          (cost > 0 ? ` (${cost.toFixed(2)} SEK)` : "");
-      } else {
-        message = `${who} — ${type || "event"}`;
-      }
       return {
         id: `${a.timestamp}-${idx}`,
         timestamp: a.timestamp ? String(a.timestamp) : "",
-        message,
         type,
-        sodaType,
+        sodaType: a.sodaType ?? "",
+        username: a.username ?? "",
+        quantity: a.quantity ?? 0,
+        cost: a.cost ?? 0,
       };
     });
 

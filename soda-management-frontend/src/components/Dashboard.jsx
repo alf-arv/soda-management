@@ -74,6 +74,7 @@ export default function Dashboard() {
   const activities = status?.activities ?? [];
   const sodaTypes = status?.sodaTypes ?? [];
   const stockBySodaType = status?.stockBySodaType ?? {};
+  const allUsernames = participants.map((p) => p.username).filter(Boolean);
 
   return (
     <Fade in timeout={500}>
@@ -149,7 +150,7 @@ export default function Dashboard() {
                     ))
                   : participants.map((p, idx) => (
                       <Grid item xs={12} sm={6} md={4} key={p.username || `participant-${idx}`}>
-                        <UserCard participant={p} />
+                        <UserCard participant={p} allUsernames={allUsernames} />
                       </Grid>
                     ))}
               </Grid>
@@ -167,6 +168,7 @@ export default function Dashboard() {
                 activities={activities}
                 loading={loading && !activities.length}
                 sodaTypes={sodaTypes}
+                allUsernames={allUsernames}
               />
             </Box>
           </Box>

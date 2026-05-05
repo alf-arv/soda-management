@@ -26,7 +26,7 @@ export default function Header({ user, onLogout, onOpenAdmin }) {
         position="sticky"
         elevation={0}
         sx={{
-          top: 12,
+          top: "calc(12px + env(safe-area-inset-top))",
           mx: "auto",
           left: 0,
           right: 0,
