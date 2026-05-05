@@ -17,6 +17,10 @@ if (typeof window !== "undefined") {
     window.matchMedia("(display-mode: fullscreen)").matches;
   if (isStandalone) {
     document.documentElement.classList.add("is-standalone");
+    const isIOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent);
+    if (isIOS) {
+      document.documentElement.classList.add("is-ios-standalone");
+    }
     const applyBodyPadding = () => {
       if (document.body) {
         document.body.style.paddingTop = "env(safe-area-inset-top)";

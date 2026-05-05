@@ -27,9 +27,12 @@ export default function LowStockBanner({
         flexDirection: { xs: "column", sm: "row" },
         alignItems: { xs: "stretch", sm: "center" },
         gap: { xs: 1.25, sm: 1.5 },
-        border: (t) => `1px solid ${alpha(t.palette.warning.main, 0.4)}`,
+        border: (t) =>
+          `1px solid ${alpha(t.palette.warning.main, t.palette.mode === "light" ? 0.55 : 0.4)}`,
         background: (t) =>
-          `linear-gradient(135deg, ${alpha(t.palette.warning.main, 0.12)} 0%, ${alpha(t.palette.warning.main, 0.04)} 100%)`,
+          t.palette.mode === "light"
+            ? `linear-gradient(135deg, ${alpha(t.palette.warning.main, 0.2)} 0%, ${alpha(t.palette.warning.main, 0.08)} 100%)`
+            : `linear-gradient(135deg, ${alpha(t.palette.warning.main, 0.12)} 0%, ${alpha(t.palette.warning.main, 0.04)} 100%)`,
       }}
     >
       <Box
@@ -49,7 +52,8 @@ export default function LowStockBanner({
             borderRadius: "50%",
             display: "grid",
             placeItems: "center",
-            bgcolor: (t) => alpha(t.palette.warning.main, 0.18),
+            bgcolor: (t) =>
+              alpha(t.palette.warning.main, t.palette.mode === "light" ? 0.28 : 0.18),
             color: "warning.main",
             mt: 0.25,
           }}

@@ -27,10 +27,10 @@ import UserDisplayName from "./UserDisplayName";
 const EXPLAINER = [
     "This should be kept a nice and obedient soda community. No alcoholic drinks are allowed and we strictly follow L18's and WBD's rules.",
     "Soda cooling may not interfere with other usage of the common fridges and cold stock should be kept low.",
-    "Anyone with an account can participate — but have to record their actions through this web application (or somehow else if the site is down).",
+    "Anyone with an account can participate — but have to record their actions so trust and fairness remains.",
     "We collaborate in moving cans from the warm storage (soda cabinet) to the fridge, and try to keep a variety of cold sodas available at all times.",
-    "When stock runs low, whoever has the lowest net balance is up next to refill.",
-    "The system is fully community driven and honor-based. One can of coke is equally valued to a can of celsius or Loka regardless of its purchase price.",
+    "When stock runs low, whoever has the lowest net balance is suggested to refill next.",
+    "The system is fully community driven and honor-based. One can of Coke is equally valued to a can of Celsius/Loka regardless of purchase prices.",
     "Refill spend is only a fun stat. No money is handled and there are no sales or purchases.",
     "If you want to leave the soda community, settle your outstanding balance and ask an admin to delete your account. Thanks for your participation and welcome back anytime! ⭐",
 ];
@@ -343,7 +343,16 @@ export default function CommunityInfoDialog({
       onClose={onClose}
       maxWidth="md"
       fullWidth
-      PaperProps={{ sx: { borderRadius: 3 } }}
+      PaperProps={{
+        sx: {
+          borderRadius: 3,
+          "html.is-ios-standalone &": {
+            mt: "calc(env(safe-area-inset-top) + 16px)",
+            maxHeight:
+              "calc(100% - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 48px)",
+          },
+        },
+      }}
     >
       <DialogTitle
         sx={{
@@ -356,7 +365,7 @@ export default function CommunityInfoDialog({
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <HelpOutlineRoundedIcon color="primary" />
-          How the soda fund works
+          Rules & Stats
         </Box>
         <IconButton onClick={onClose} aria-label="Close">
           <CloseRoundedIcon />
@@ -364,6 +373,14 @@ export default function CommunityInfoDialog({
       </DialogTitle>
 
       <DialogContent dividers sx={{ borderColor: "divider" }}>
+        <Box sx={{ mb: 2.5 }}>
+          <NextUpCard
+            nextUp={nextUp}
+            currentUsername={currentUsername}
+            allUsernames={allUsernames}
+          />
+        </Box>
+
         <Box
           component="ul"
           sx={{
@@ -382,14 +399,6 @@ export default function CommunityInfoDialog({
               {line}
             </Typography>
           ))}
-        </Box>
-
-        <Box sx={{ mb: 2.5 }}>
-          <NextUpCard
-            nextUp={nextUp}
-            currentUsername={currentUsername}
-            allUsernames={allUsernames}
-          />
         </Box>
 
         <Grid container spacing={2}>
