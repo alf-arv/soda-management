@@ -25,11 +25,13 @@ import {
 import UserDisplayName from "./UserDisplayName";
 
 const EXPLAINER = [
-    "This should be kept a nice and obedient soda community. No alcoholic drinks are allowed and we strictly follow L18's and WBD's rules. Soda cooling may not interfere with other usage of the common fridges and cold stock should be kept low.",
-    "Anyone with an account can participate — with the condition they have to log their usage through this web application (or in some other way if this site is temporarily down).",
+    "This should be kept a nice and obedient soda community. No alcoholic drinks are allowed and we strictly follow L18's and WBD's rules.",
+    "Soda cooling may not interfere with other usage of the common fridges and cold stock should be kept low.",
+    "Anyone with an account can participate — but have to record their actions through this web application (or somehow else if the site is down).",
+    "We collaborate in moving cans from the warm storage (soda cabinet) to the fridge, and try to keep a variety of cold sodas available at all times.",
     "When stock runs low, whoever has the lowest net balance is up next to refill.",
-    "All balances are public. The system is fully community driven and honor-based. The soda stash works in units of cans, meaning one can of coke is valued the same as a can of celsius or Loka regardless of what it costs at your store. Refill spend is only a fun stat. No money is handled and there is no sales or purchases.",
-    "We collaborate in moving cans from the warm storage (soda cabinet) to the fridge, and try to keep a variety of cold sodas available at all times, in a low stock to not disrupt other usage of common fridges.",
+    "The system is fully community driven and honor-based. One can of coke is equally valued to a can of celsius or Loka regardless of its purchase price.",
+    "Refill spend is only a fun stat. No money is handled and there are no sales or purchases.",
     "If you want to leave the soda community, settle your outstanding balance and ask an admin to delete your account. Thanks for your participation and welcome back anytime! ⭐",
 ];
 
